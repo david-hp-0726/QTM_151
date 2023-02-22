@@ -14590,7 +14590,7 @@ that converts "countryname" to upper case.</li>
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Write your own code here</span>
 <span class="n">median</span> <span class="o">=</span> <span class="n">wdi_2020</span><span class="o">.</span><span class="n">prop_urbanpopulation</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
-<span class="n">above_median</span> <span class="o">=</span> <span class="n">wdi_2020</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;prop_urbanpopulation &gt; </span><span class="si">{</span><span class="n">median</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">above_median</span> <span class="o">=</span> <span class="n">wdi_2020</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;prop_urbanpopulation &gt; @median&#39;</span><span class="p">)</span>
 <span class="n">above_median</span><span class="o">.</span><span class="n">prop_urbanpopulation</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
 </pre></div>
 
@@ -14697,7 +14697,7 @@ for each year</li>
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>&lt;matplotlib.legend.Legend at 0x7ff3d1b824c0&gt;</pre>
+<pre>&lt;matplotlib.legend.Legend at 0x7f943878c7c0&gt;</pre>
 </div>
 
 </div>
