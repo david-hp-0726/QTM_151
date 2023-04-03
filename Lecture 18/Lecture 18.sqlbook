@@ -35,14 +35,13 @@ United States Congress dataset
 
 Create table from codebook/dictionary
 -- SQLBook: Code
--- Active: 1679060344026@@127.0.0.1@5432@postgres
+-- Active: 1679515732880@@127.0.0.1@5432@postgres
 -- We start by deleting the old table
 -- SQL does not allow you to create a table if one already exists
 DROP TABLE IF EXISTS us_congress_members;
 
 -- Note in SQL the codebook is also called a "dictionary"
 -- The option PRIMARY KEY indicates that this is the unique identifier
-
 CREATE TABLE us_congress_members (
         member_id    int PRIMARY KEY,
         full_name    varchar(30),
@@ -51,8 +50,7 @@ CREATE TABLE us_congress_members (
         state        varchar(30),
         party_name   varchar(30),
         chamber      varchar(30)
-)
-
+);
 -- SQLBook: Code
 -- (i) The NOT NULL option is a special restrition saying
 --     that you are not allowed to enter missing data for this column
@@ -86,14 +84,8 @@ Try it yourself!
 
 - Create a new table for "bills_subjects"
 -- SQLBook: Code
-DROP TABLE IF EXISTS bills_subjects;
+-- Write your own code
 
-CREATE TABLE bills_subjects (
-    "congress" int,
-    bill_number int,
-    bill_type varchar(100),
-    bill_subject varchar(100)
-)
 
 -- SQLBook: Markup
 # <span style="color:darkblue"> II. Import CSV into SQL </span>
@@ -124,9 +116,6 @@ FROM 'D:\GitHub\qtm151spring2023\Lecture 18\data\us_congress_members.csv' ```
 WITH (DELIMITER ',', FORMAT csv, HEADER MATCH);
 ```
 -- SQLBook: Code
-# '/Users/hp/Desktop/GitHub/QTM_151/Lecture 17/Lecture 17.sqlbook
--- SQLBook: Code
--- Active: 1679060344026@@127.0.0.1@5432@postgres
 -- The argument associaated with COPY is the dataset in our server
 -- The argument associaated with FROM is a filepath name
 -- There are three options specified in WITH:
@@ -134,11 +123,6 @@ WITH (DELIMITER ',', FORMAT csv, HEADER MATCH);
 -----  FORMAT indicates that this is a CSV
 -----  HEADER MATCH indicates that the first row contains column
 -----  names and should be ignored when importing.
-
-COPY us_congress_members
-FROM '/private/tmp/data/us_congress_members.csv'
-WITH (DELIMITER ',', FORMAT csv, HEADER MATCH);
-
 -- SQLBook: Markup
 <font size = "5">
 
@@ -165,16 +149,14 @@ Try it yourself!
 SELECT * FROM us_congress_members
 ```
 -- SQLBook: Code
--- Active: 1679060344026@@127.0.0.1@5432@postgres
 -- Write your own code
 -- Note in the instructor's computer this is:
 -- You just have to change the FROM argument
 --
--- COPY us_congress_members
--- FROM '/private/tmp/data/us_congress_members.csv'
--- WITH (DELIMITER ',', FORMAT csv, HEADER MATCH);
+COPY us_congress_members
+FROM 'D:\GitHub\qtm151spring2023\Lecture 18\data\us_congress_members.csv'
+WITH (DELIMITER ',', FORMAT csv, HEADER MATCH);
 
-SELECT * FROM us_congress_members;
 
 
 -- SQLBook: Markup
@@ -193,19 +175,11 @@ SELECT * FROM bills_actions
 -- Note in the instructor's computer this is:
 -- You just have to change the FROM argument
 --
--- COPY bills_actions
--- FROM 'D:\GitHub\qtm151spring2023\Lecture 18\data\bills_actions.csv'
--- WITH (DELIMITER ',', FORMAT csv, HEADER MATCH);
 COPY bills_actions
-FROM '/private/tmp/data/bills_actions.csv'
-WITH (DELIMITER ',', FORMAT CSV, HEADER MATCH);
+FROM 'D:\GitHub\qtm151spring2023\Lecture 18\data\bills_actions.csv'
+WITH (DELIMITER ',', FORMAT csv, HEADER MATCH);
 
-SELECT * FROM bills_actions Limit 10;
 
--- SQLBook: Code
-COPY bills_subjects
-FROM '/private/tmp/data/bills_subjects.csv'
-WITH (DELIMITER ',', FORMAT CSV, HEADER MATCH);
 -- SQLBook: Markup
 <font size = "5">
 
@@ -233,12 +207,9 @@ Count unique rows
 -- COUNT(DISTINCT ) computes the number of unique rows
 -- "AS" is the alias or name of the statistic
 
--- SELECT COUNT(DISTINCT party_name) AS num_distinct_parties,
---        COUNT(*) AS num_members       
--- FROM us_congress_members
-
-SELECT COUNT(DISTINCT party_name) AS num_distinct_parties, COUNT(*) AS num_members
-FROM us_congress_members;
+SELECT COUNT(DISTINCT party_name) AS num_distinct_parties,
+       COUNT(*) AS num_members       
+FROM us_congress_members
 -- SQLBook: Markup
 <font size = "5">
 Display unique rows
@@ -269,17 +240,12 @@ Merge Databases
 
 SELECT * 
 FROM bills_actions
-RIGHT JOIN us_congress_members
-ON bills_actions.member_id  = us_congress_members.member_id;
+LEFT JOIN us_congress_members
+ON us_congress_members.member_id  = bills_actions.member_id;
 
 -- Note: This command may take a few seconds to run. This is normal
 -- In the instructor's computer this took 2 min but may take more 
 -- or less in your computer
--- SQLBook: Code
-SELECT *
-FROM us_congress_members
-LEFT JOIN bills_actions
-ON bills_actions.member_id = us_congress_members.member_id;
 -- SQLBook: Markup
 <font size = "5">
 
